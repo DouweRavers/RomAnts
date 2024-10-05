@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch7ug2prgwyyn"]
+
+[ext_resource type="Script" path="res://entities/faction/fog_of_war.gd" id="1_bm7vn"]
+[ext_resource type="MeshLibrary" uid="uid://cesuajklj4ds4" path="res://resources/meshlib.tres" id="2_5docv"]
+
+[node name="FogOfWar" type="Node"]
+script = ExtResource("1_bm7vn")
+
+[node name="TickTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="FogOfWarVisual" type="GridMap" parent="."]
+mesh_library = ExtResource("2_5docv")
+cell_size = Vector3(1, 1, 1)
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[connection signal="timeout" from="TickTimer" to="." method="_on_tick"]

@@ -1,0 +1,234 @@
+[gd_scene load_steps=21 format=3 uid="uid://rnmcx0o0hdgb"]
+
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_3n5gp"]
+[ext_resource type="Script" path="res://entities/faction/player/player_camera.gd" id="2_1etxd"]
+[ext_resource type="Script" path="res://entities/faction/player/player.gd" id="2_ba5k2"]
+[ext_resource type="PackedScene" uid="uid://ch7ug2prgwyyn" path="res://entities/faction/fog_of_war.tscn" id="5_8a5ny"]
+[ext_resource type="Script" path="res://entities/faction/enemy/enemy.gd" id="6_y7ter"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tx3qi"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_mmhs2"]
+sky_material = SubResource("ProceduralSkyMaterial_tx3qi")
+
+[sub_resource type="Environment" id="Environment_r8f2r"]
+background_mode = 2
+sky = SubResource("Sky_mmhs2")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e001c"]
+width = 16
+height = 16
+
+[sub_resource type="PrismMesh" id="PrismMesh_dw2jx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nljwt"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_api38"]
+albedo_color = Color(0.53, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cpeim"]
+lightmap_size_hint = Vector2i(17, 14)
+material = SubResource("StandardMaterial3D_api38")
+radius = 0.25
+height = 1.0
+
+[sub_resource type="Animation" id="Animation_qp8oi"]
+resource_name = "db_anim"
+length = 12.0
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 2.5, 4, 4.5, 6, 7, 9, 9.5, 12),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-5.16842, 0.25, 6.861), Vector3(-5.16842, 0.25, -0.139), Vector3(-4.16842, 0.25, -0.139), Vector3(4.83158, 0.249999, -0.139), Vector3(5.83158, 0.249999, -1.139), Vector3(5.83158, 0.249999, -7.139), Vector3(4.83158, 0.249999, -7.139), Vector3(-5.16842, 0.249999, -7.139), Vector3(-6.16842, 0.249999, -6.139), Vector3(-6.16841, 0.249998, 4.861)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2, 2.5, 4, 4.5, 6, 7, 9, 9.5, 12),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.5708, 0, 0), Vector3(-1.5708, 0, 0), Vector3(-1.5708, -1.5708, 0), Vector3(-1.5708, -1.5708, 0), Vector3(-1.5708, -7.17753e-23, 0), Vector3(-1.5708, -7.17753e-23, 0), Vector3(-1.5708, 1.5708, 0), Vector3(-1.5708, 1.5708, 0), Vector3(-1.5708, -3.14159, 0), Vector3(-1.5708, -3.14159, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_27gua"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-5.16842, 0.25, 6.861)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.5708, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ae667"]
+_data = {
+"RESET": SubResource("Animation_27gua"),
+"db_anim": SubResource("Animation_qp8oi")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xv1v4"]
+albedo_color = Color(0, 0.766667, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ob58c"]
+albedo_color = Color(0, 0.46, 0.145667, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_alxwk"]
+material = SubResource("StandardMaterial3D_ob58c")
+size = Vector2(20, 20)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3yo4a"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_3n5gp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r8f2r")
+
+[node name="Player" type="Node" parent="."]
+script = ExtResource("2_ba5k2")
+
+[node name="PlayerCamera" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 2.38419e-07, 1.98981, 3.94427)
+script = ExtResource("2_1etxd")
+
+[node name="Sprite3D" type="Sprite3D" parent="Player/PlayerCamera"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 1, 0)
+cast_shadow = 0
+axis = 1
+billboard = 2
+texture = SubResource("NoiseTexture2D_e001c")
+
+[node name="PlayerUI" type="Control" parent="Player"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Player/PlayerUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -206.0
+offset_top = -206.0
+grow_horizontal = 0
+grow_vertical = 0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Player/PlayerUI/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(206, 206)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Player/PlayerUI/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 20, 0)
+projection = 1
+size = 20.0
+
+[node name="FogOfWar" parent="Player" instance=ExtResource("5_8a5ny")]
+
+[node name="Buildings" type="Node" parent="Player"]
+
+[node name="PlayerCamp" type="MeshInstance3D" parent="Player/Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.40872, 7)
+mesh = SubResource("PrismMesh_dw2jx")
+skeleton = NodePath("../../../Environment/Terrain")
+surface_material_override/0 = SubResource("StandardMaterial3D_nljwt")
+
+[node name="Units" type="Node" parent="Player"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Units"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5.16842, 0.25, 6.861)
+mesh = SubResource("CapsuleMesh_cpeim")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+root_node = NodePath("../Units")
+libraries = {
+"": SubResource("AnimationLibrary_ae667")
+}
+autoplay = "db_anim"
+
+[node name="Enemy" type="Node" parent="."]
+script = ExtResource("6_y7ter")
+
+[node name="FogOfWar" parent="Enemy" instance=ExtResource("5_8a5ny")]
+visual = false
+
+[node name="Buildings" type="Node" parent="Enemy"]
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Enemy/Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.40872, -7)
+mesh = SubResource("PrismMesh_dw2jx")
+skeleton = NodePath("../../../Environment/Terrain")
+surface_material_override/0 = SubResource("StandardMaterial3D_xv1v4")
+
+[node name="Units" type="Node" parent="Enemy"]
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="Terrain" type="MeshInstance3D" parent="Environment"]
+mesh = SubResource("PlaneMesh_alxwk")
+skeleton = NodePath("../..")
+
+[node name="Food" type="Node" parent="Environment"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Environment/Food"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.41598, 0.40872, -3.16507)
+mesh = SubResource("SphereMesh_3yo4a")
+skeleton = NodePath("../../Terrain")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Environment/Food"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.57951, 0.40872, 2.67711)
+mesh = SubResource("SphereMesh_3yo4a")
+skeleton = NodePath("../../Terrain")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Environment/Food"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.39705, 0.408719, -3.50521)
+mesh = SubResource("SphereMesh_3yo4a")
+skeleton = NodePath("../../Terrain")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Environment/Food"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0892634, 0.408719, 5.57122)
+mesh = SubResource("SphereMesh_3yo4a")
+skeleton = NodePath("../../Terrain")
