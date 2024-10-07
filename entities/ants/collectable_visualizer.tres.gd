@@ -5,5 +5,5 @@ extends MeshInstance3D
 
 func _process(delta: float) -> void:
 	visible = ant.capacity > 0 and \
-		ant.target == PlayerCamp.instance and \
+		ant.target is PlayerCamp and \
 		ant.source_target.type == type

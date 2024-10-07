@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://kslywe6neejo"]
+[gd_scene load_steps=6 format=3 uid="uid://kslywe6neejo"]
 
 [ext_resource type="Script" path="res://entities/resources/collectable_resource.gd" id="1_ybx4f"]
 [ext_resource type="PackedScene" uid="uid://rheyik3n6qia" path="res://assets/fbx/rock.fbx" id="2_uwrg3"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_2ifhi"]
 radius = 1.9217
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gjw2c"]
+radius = 2.0
 
 [node name="StoneResource" type="StaticBody3D" groups=["NavmeshTargets"]]
 script = ExtResource("1_ybx4f")
@@ -26,6 +29,13 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 20, 0)
 layers = 2
 billboard = 1
 texture = ExtResource("3_uq1d7")
+
+[node name="Area3D" type="Area3D" parent="."]
+monitoring = false
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.442429, 0)
+shape = SubResource("SphereShape3D_gjw2c")
 
 [connection signal="timeout" from="Timer" to="." method="_on_tick"]
 

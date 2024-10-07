@@ -16,4 +16,4 @@ func collect(amount:int)->int:
 
 func _on_tick() -> void:
 	if capacity < 100: return
-	capacity += 1
+	capacity += 10

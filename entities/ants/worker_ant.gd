@@ -43,3 +43,23 @@ func _on_target_reached() -> void:
 		capacity = 0
 		target = source_target
 		go_to(target.global_position)
+
+
+func _on_area_3d_area_entered(area: Area3D) -> void:
+	if area.get_parent() is CollectableResource:
+		var resource := area.get_parent() as CollectableResource
+		capacity = resource.collect(5)
+		target = PlayerCamp.instance
+		go_to(target.global_position)
+	elif area.get_parent() is PlayerCamp:
+		var camp := area.get_parent() as PlayerCamp
+		match source_target.type:
+			CollectableResource.ResourceType.FOOD:
+				camp.food_capacity += capacity
+			CollectableResource.ResourceType.WOOD:
+				camp.wood_capacity += capacity
+			CollectableResource.ResourceType.STONE:
+				camp.stone_capacity += capacity
+		capacity = 0
+		target = source_target
+		go_to(target.global_position)

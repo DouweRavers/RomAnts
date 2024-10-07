@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://cbc61u4p4mn05"]
+[gd_scene load_steps=24 format=4 uid="uid://cbc61u4p4mn05"]
 
 [ext_resource type="Script" path="res://entities/ants/worker_ant.gd" id="1_hmrg3"]
 [ext_resource type="PackedScene" uid="uid://v2kcdfr5npqb" path="res://assets/fbx/base_ant.fbx" id="2_b8awe"]
@@ -123,6 +123,9 @@ fill_to = Vector2(1, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uj2kw"]
 texture = SubResource("GradientTexture2D_upbt3")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_6s5hc"]
+size = Vector3(3, 3, 3)
+
 [node name="WorkerAnt" type="CharacterBody3D"]
 axis_lock_angular_x = true
 axis_lock_angular_z = true
@@ -136,7 +139,7 @@ shape = SubResource("CapsuleShape3D_bqyr6")
 
 [node name="Skeleton3D" parent="base_ant/BaseAnt" index="0"]
 bones/0/rotation = Quaternion(9.9051e-05, -8.31996e-29, 6.6946e-17, 1)
-bones/1/rotation = Quaternion(0.0811275, 0.000963642, -0.206745, 0.975025)
+bones/1/rotation = Quaternion(0.0536049, -3.59708e-18, -7.87621e-17, 0.998562)
 bones/3/rotation = Quaternion(0.541099, 0.16567, -0.351117, 0.745978)
 bones/4/rotation = Quaternion(-0.275331, 0.0633099, -0.577289, 0.766108)
 bones/7/rotation = Quaternion(0.674429, 0.240017, -0.247256, 0.652994)
@@ -152,7 +155,7 @@ bones/24/rotation = Quaternion(0.0469251, 0.0954517, 0.66037, 0.74337)
 bones/27/rotation = Quaternion(0, 0, 1, 0)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="base_ant/BaseAnt/Skeleton3D" index="0"]
-transform = Transform3D(0.914511, 0.40332, -0.0316663, -0.403001, 0.901318, -0.158797, -0.0355045, 0.157983, 0.986803, 1.16994e-19, 0.00431615, 0.00552689)
+transform = Transform3D(1, 2.3791e-17, -1.2808e-18, -2.37911e-17, 0.994232, -0.107253, -1.27823e-18, 0.107253, 0.994232, 1.16994e-19, 0.00431615, 0.00552689)
 bone_name = "Head"
 bone_idx = 1
 
@@ -189,7 +192,7 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/blend_position = 0.0
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-target_desired_distance = 2.0
+target_desired_distance = 3.0
 avoidance_enabled = true
 debug_path_custom_color = Color(0.3, 0.381667, 1, 1)
 
@@ -224,9 +227,17 @@ texture = ExtResource("6_l4m2r")
 
 [node name="Node3D" parent="." instance=ExtResource("8_th62q")]
 
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.672495, -2.70862)
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_6s5hc")
+
 [connection signal="mouse_entered" from="." to="base_ant/BaseAnt/Skeleton3D/Head2" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="base_ant/BaseAnt/Skeleton3D/Head2" method="_on_mouse_exited"]
 [connection signal="navigation_finished" from="NavigationAgent3D" to="." method="_on_target_reached"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_velocity_computed"]
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
 
 [editable path="base_ant"]

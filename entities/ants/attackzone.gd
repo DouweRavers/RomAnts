@@ -13,6 +13,7 @@ func _on_attack_timer_timeout() -> void:
 			if ant is EnemyAnt and other_ant is not EnemyAnt:
 				other_ant.hit(randi_range(0, ant.damage))
 				attack.emit()
+	if ant is SoldierAnt: return
 	for area in get_overlapping_areas():
 		if area.get_parent() is Building:
 			var building := area.get_parent() as Building

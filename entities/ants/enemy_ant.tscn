@@ -15,8 +15,6 @@ height = 2.88419
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 script = ExtResource("1_kehry")
-damage = 4
-max_health = 15
 speed = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -24,7 +22,7 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.4
 shape = SubResource("CapsuleShape3D_bqyr6")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-target_desired_distance = 2.0
+target_desired_distance = 3.0
 avoidance_enabled = true
 debug_path_custom_color = Color(0.3, 0.381667, 1, 1)
 
@@ -38,9 +36,9 @@ texture = ExtResource("2_hdgws")
 
 [node name="Skeleton3D" parent="enemy/EnemyAnt" index="0"]
 bones/0/rotation = Quaternion(-0.151731, -0.023891, -0.015694, 0.988008)
-bones/1/rotation = Quaternion(-0.448048, 0.00344809, -0.000394401, 0.894003)
+bones/1/rotation = Quaternion(-0.453618, 0.00738223, -0.000844401, 0.891166)
 bones/2/rotation = Quaternion(0.597894, 0.051707, -0.697194, 0.392135)
-bones/3/rotation = Quaternion(-0.268977, 0.0602213, -0.581107, 0.765729)
+bones/3/rotation = Quaternion(-0.261701, 0.0566905, -0.585419, 0.765234)
 bones/3/scale = Vector3(1, 1, 1)
 bones/4/rotation = Quaternion(-0.185361, 0.0767715, -0.304188, 0.931245)
 bones/4/scale = Vector3(1, 1, 1)
@@ -55,10 +53,10 @@ bones/8/rotation = Quaternion(0.731112, 0.216438, -0.270013, 0.587982)
 bones/9/rotation = Quaternion(-0.147272, -0.690287, -0.291994, 0.64541)
 bones/10/rotation = Quaternion(0.035527, -0.0722718, -0.344413, 0.935358)
 bones/10/scale = Vector3(1, 1, 1)
-bones/11/rotation = Quaternion(0.582122, -0.384409, 0.688139, 0.199572)
+bones/11/rotation = Quaternion(0.58198, -0.38065, 0.688782, 0.204903)
 bones/12/rotation = Quaternion(-0.275331, -0.0633099, 0.577289, 0.766108)
 bones/12/scale = Vector3(1, 1, 1)
-bones/13/rotation = Quaternion(0.0216325, 0.352033, 0.113455, 0.928834)
+bones/13/rotation = Quaternion(0.0127256, 0.347415, 0.116465, 0.930364)
 bones/13/scale = Vector3(1, 1, 1)
 bones/14/position = Vector3(-0.131012, 0.4206, 0.0209323)
 bones/14/rotation = Quaternion(0.311801, -0.156763, 0.515707, 0.782465)
@@ -71,7 +69,7 @@ bones/17/rotation = Quaternion(0.742166, -0.221688, 0.264848, 0.574369)
 bones/18/rotation = Quaternion(-0.156224, 0.731565, 0.301322, 0.59128)
 bones/19/rotation = Quaternion(0.035527, 0.0722718, 0.344413, 0.935358)
 bones/19/scale = Vector3(1, 1, 1)
-bones/20/rotation = Quaternion(0.000485378, 0.711083, 0.703105, -0.00183471)
+bones/20/rotation = Quaternion(0.00103909, 0.715589, 0.69851, -0.00392773)
 
 [node name="AnimationTree" type="AnimationTree" parent="enemy"]
 tree_root = ExtResource("4_px4kn")

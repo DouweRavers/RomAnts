@@ -34,6 +34,13 @@ layers = 2
 billboard = 1
 texture = ExtResource("4_w3ttc")
 
+[node name="Area3D" type="Area3D" parent="."]
+monitoring = false
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.442429, 0)
+shape = SubResource("SphereShape3D_g8vog")
+
 [connection signal="mouse_entered" from="." to="food/Food" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="food/Food" method="_on_mouse_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_tick"]

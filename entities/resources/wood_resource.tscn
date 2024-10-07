@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://kh5xmgawk26n"]
+[gd_scene load_steps=7 format=3 uid="uid://kh5xmgawk26n"]
 
 [ext_resource type="Script" path="res://entities/resources/collectable_resource.gd" id="1_khlta"]
 [ext_resource type="PackedScene" uid="uid://87uikru2r8pc" path="res://assets/fbx/plant.fbx" id="2_u6krj"]
@@ -9,6 +9,9 @@ radius = 2.49866
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_do68j"]
 albedo_color = Color(0.53, 0.366053, 0.1908, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gc3ak"]
+radius = 2.0
 
 [node name="WoodResource" type="StaticBody3D" groups=["NavmeshTargets"]]
 script = ExtResource("1_khlta")
@@ -33,6 +36,13 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 20, 0)
 layers = 2
 billboard = 1
 texture = ExtResource("3_i5i26")
+
+[node name="Area3D" type="Area3D" parent="."]
+monitoring = false
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.442429, 0)
+shape = SubResource("SphereShape3D_gc3ak")
 
 [connection signal="timeout" from="Timer" to="." method="_on_tick"]
 

@@ -3,8 +3,8 @@ class_name PlayerCamp extends Building
 static var instance:PlayerCamp
 
 var food_capacity:=100
-var wood_capacity:=100
-var stone_capacity:=100
+var wood_capacity:=40
+var stone_capacity:=40
 
 var active_indicator:Indicator
 
@@ -24,7 +24,7 @@ func on_interact(object:CollisionObject3D, point:Vector3)->void:
 			buy_ant(40, point, soldier_scene)
 		if active_indicator.type == Indicator.IndicatorType.BUILDING_BALISTA:
 			var ballista_scene := load("res://entities/buildings/ballista.tscn") as PackedScene
-			buy_building(40, 40, point, ballista_scene)
+			buy_building(20, 20, point, ballista_scene)
 
 func _on_worker_pressed() -> void:
 	if active_indicator != null: active_indicator.queue_free()

@@ -54,7 +54,7 @@ script/source = "extends Panel
 func _process(delta: float) -> void:
 	$HBoxContainer/Worker/Worker.disabled = PlayerCamp.instance.food_capacity < 20
 	$HBoxContainer/Soldier/Soldier.disabled = PlayerCamp.instance.food_capacity < 40
-	$HBoxContainer/Balista/AspectRatioContainer/balista.disabled = PlayerCamp.instance.stone_capacity < 40 or PlayerCamp.instance.wood_capacity < 40
+	$HBoxContainer/Balista/AspectRatioContainer/balista.disabled = PlayerCamp.instance.stone_capacity < 20 or PlayerCamp.instance.wood_capacity < 20
 "
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hx5fy"]
@@ -261,7 +261,7 @@ expand_mode = 2
 
 [node name="Label" type="Label" parent="RecruitOptions/HBoxContainer/Balista/HBoxContainer"]
 layout_mode = 2
-text = "40"
+text = "20"
 horizontal_alignment = 1
 
 [node name="Healthbar" parent="." instance=ExtResource("13_0oymu")]
