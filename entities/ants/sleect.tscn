@@ -1,0 +1,93 @@
+[gd_scene load_steps=9 format=4 uid="uid://c05rbbsw4du21"]
+
+[ext_resource type="Script" path="res://entities/ants/select.gd" id="1_47iba"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rbo5m"]
+albedo_color = Color(0.17, 0.585, 1, 1)
+emission_enabled = true
+emission = Color(0.364706, 0.94902, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uc22g"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4kqou"]
+_surfaces = [{
+"aabb": AABB(-0.00674903, -0.00389656, -0.0139223, 0.0134981, 0.0116897, 0.0239223),
+"format": 34359742465,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAwABAAAAAgABAAMABAADAAAABAACAAMABAAAAAIA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 5,
+"vertex_data": PackedByteArray("AAAAAFtd/zuhDLe7AAAAAAAAAAAK1yM8/Cbdu1tdf7uhDLe7/CbdO1tdf7uhDLe7V2lZsArXo6+DGmS8")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_to4s8"]
+resource_name = "Cone"
+_surfaces = [{
+"aabb": AABB(-0.00674903, -0.00389656, -0.0139223, 0.0134981, 0.0116897, 0.0239223),
+"attribute_data": PackedByteArray("AACAPn8eED8AAIA+AABAP4ZFtD3A8Fc/nu7SPsDwVz8AAIA+AABAPwAAgD5+HhA/iEW0PcDwVz8AAIA+AABAP57u0j7A8Fc/cGqwPkJ9LD+e7tI+wPBXPwAAgD5+HhA/75WJPlK4Xj+IRbQ9wPBXP57u0j7A8Fc/RP8LPmzKND8AAIA+fx4QP4ZFtD3A8Fc/"),
+"format": 34359742487,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAwAEAAUABgAHAAgACQAKAAsADAANAA4ADwAQABEA"),
+"material": SubResource("StandardMaterial3D_uc22g"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 18,
+"vertex_data": PackedByteArray("AAAAAFtd/zuhDLe7AAAAAAAAAAAK1yM8/Cbdu1tdf7uhDLe7/CbdO1tdf7uhDLe7AAAAAAAAAAAK1yM8AAAAAFtd/zuhDLe7/Cbdu1tdf7uhDLe7AAAAAAAAAAAK1yM8/CbdO1tdf7uhDLe7V2lZsArXo6+DGmS8/CbdO1tdf7uhDLe7AAAAAFtd/zuhDLe7V2lZsArXo6+DGmS8/Cbdu1tdf7uhDLe7/CbdO1tdf7uhDLe7V2lZsArXo6+DGmS8AAAAAFtd/zuhDLe7/Cbdu1tdf7uhDLe7ZzuZp6uc/79nO5mnq5z/v2c7maernP+/l8SZp/7/VY6XxJmn/v9VjpfEmaf+/1WO/3+ZGf///7//f5kZ////v/9/mRn///+/F92Jw6scCIwX3YnDqxwIjBfdicOrHAiMxagAAP///7/FqAAA////v8WoAAD///+/5yKJw5RflMjnIonDlF+UyOciicOUX5TI")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_4kqou")
+
+[sub_resource type="Animation" id="Animation_l16oe"]
+resource_name = "turn"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cone:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(100, 100, 100), Vector3(50, 50, 50), Vector3(100, 100, 100)]
+}
+
+[sub_resource type="Animation" id="Animation_0as7f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cone:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(100, 100, 100)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qaqbv"]
+_data = {
+"RESET": SubResource("Animation_0as7f"),
+"turn": SubResource("Animation_l16oe")
+}
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_47iba")
+
+[node name="Cone" type="MeshInstance3D" parent="."]
+transform = Transform3D(-61.3722, 5.36533e-06, -2.34526e-13, 0, -2.68266e-06, -61.3722, -5.36533e-06, -61.3722, 2.68266e-06, 0, 3.91648, 0)
+material_overlay = SubResource("StandardMaterial3D_rbo5m")
+mesh = SubResource("ArrayMesh_to4s8")
+skeleton = NodePath("")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qaqbv")
+}
+autoplay = "turn"

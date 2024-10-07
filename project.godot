@@ -13,11 +13,11 @@ config_version=5
 config/name="RomAnts"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.3")
-config/icon="res://icon.svg"
+config/icon="res://icon.png"
 
 [autoload]
 
-DebugEnvironmentWatcher="*res://addons/godot_debug_environments/debug_environment_watcher.gd"
+DebugEnvironmentWatcher="*res://addons/godot_debug_environments/watcher.gd"
 
 [debug]
 
@@ -28,6 +28,12 @@ gdscript/warnings/unsafe_cast=1
 gdscript/warnings/unsafe_call_argument=1
 gdscript/warnings/return_value_discarded=1
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
 [editor]
 
 movie_writer/movie_file="D:/Projects/movie.avi"
@@ -35,6 +41,15 @@ movie_writer/movie_file="D:/Projects/movie.avi"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/godot_debug_environments/plugin.cfg", "res://addons/scene-library/plugin.cfg")
+
+[global_group]
+
+NavmeshTargets=""
+
+[gui]
+
+theme/custom="res://resources/default_theme.tres"
+theme/custom_font="res://assets/fonts/eagle-lake/EagleLake-Regular.ttf"
 
 [input]
 
@@ -80,3 +95,8 @@ move_decrease={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":5,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

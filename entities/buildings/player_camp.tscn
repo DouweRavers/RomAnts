@@ -1,0 +1,288 @@
+[gd_scene load_steps=24 format=3 uid="uid://b1b7efqg14tt3"]
+
+[ext_resource type="Script" path="res://entities/buildings/player_camp.gd" id="1_kq4x7"]
+[ext_resource type="PackedScene" uid="uid://dg5p1vlgmycl4" path="res://assets/fbx/temple.fbx" id="2_aaq5d"]
+[ext_resource type="Texture2D" uid="uid://cg6qp7raun8x7" path="res://assets/textures/icons/temple.png" id="3_gks02"]
+[ext_resource type="Texture2D" uid="uid://y75pedv63owl" path="res://assets/textures/icons/foodicon.png" id="5_hua3m"]
+[ext_resource type="Texture2D" uid="uid://c2uk3aoo6wbpy" path="res://assets/textures/icons/woodicon.png" id="6_pteps"]
+[ext_resource type="Texture2D" uid="uid://iftvude25iw" path="res://assets/textures/icons/stoneicon.png" id="7_217be"]
+[ext_resource type="Texture2D" uid="uid://flbtrl8g838a" path="res://assets/textures/background_green.png" id="8_7h6r1"]
+[ext_resource type="Texture2D" uid="uid://qf0d41ilx4f8" path="res://assets/textures/background_red.png" id="8_cqwcq"]
+[ext_resource type="Texture2D" uid="uid://bavm56ag04tga" path="res://assets/textures/ant.png" id="8_qcgtm"]
+[ext_resource type="Texture2D" uid="uid://cdd5spo86if85" path="res://assets/textures/soldier_ant.png" id="9_j7ooj"]
+[ext_resource type="Texture2D" uid="uid://cr5tsywlrp3e0" path="res://assets/textures/ballista.png" id="12_8fevw"]
+[ext_resource type="PackedScene" uid="uid://dtf65yetl4rus" path="res://entities/ants/healthbar.tscn" id="13_0oymu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6vqva"]
+size = Vector3(0.03, 0.0703308, 0.0250723)
+
+[sub_resource type="Gradient" id="Gradient_0pgrn"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vi8kg"]
+gradient = SubResource("Gradient_0pgrn")
+fill = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_owdd5"]
+texture = SubResource("GradientTexture2D_vi8kg")
+
+[sub_resource type="GDScript" id="GDScript_543f2"]
+script/source = "extends HBoxContainer
+
+
+func _process(delta: float) -> void:
+	$Food.text = \"Food: %5d\" % PlayerCamp.instance.food_capacity
+	$Wood.text = \"Wood: %5d\" % PlayerCamp.instance.wood_capacity
+	$Stone.text = \"Stone: %5d\" % PlayerCamp.instance.stone_capacity
+"
+
+[sub_resource type="Gradient" id="Gradient_7vn4a"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_loiqi"]
+gradient = SubResource("Gradient_7vn4a")
+fill = 1
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0.5)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m4vot"]
+texture = SubResource("GradientTexture2D_loiqi")
+
+[sub_resource type="GDScript" id="GDScript_66i81"]
+script/source = "extends Panel
+
+func _process(delta: float) -> void:
+	$HBoxContainer/Worker/Worker.disabled = PlayerCamp.instance.food_capacity < 20
+	$HBoxContainer/Soldier/Soldier.disabled = PlayerCamp.instance.food_capacity < 40
+	$HBoxContainer/Balista/AspectRatioContainer/balista.disabled = PlayerCamp.instance.stone_capacity < 40 or PlayerCamp.instance.wood_capacity < 40
+"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hx5fy"]
+texture = ExtResource("8_cqwcq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_84sr8"]
+texture = ExtResource("8_7h6r1")
+
+[node name="PlayerCamp" type="StaticBody3D" groups=["NavmeshTargets"]]
+script = ExtResource("1_kq4x7")
+max_health = 100
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, -1.19209e-05, 100, 0, -100, -1.19209e-05, -0.0326234, 1.22666, 0.0199586)
+shape = SubResource("BoxShape3D_6vqva")
+
+[node name="temple" parent="." instance=ExtResource("2_aaq5d")]
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 20, 0)
+layers = 2
+billboard = 1
+texture = ExtResource("3_gks02")
+
+[node name="ResourcePanel" type="Panel" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 66.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_owdd5")
+
+[node name="ResourceTab" type="HBoxContainer" parent="ResourcePanel"]
+layout_mode = 2
+offset_right = 351.0
+offset_bottom = 42.0
+theme_override_constants/separation = 10
+script = SubResource("GDScript_543f2")
+
+[node name="TextureRect" type="TextureRect" parent="ResourcePanel/ResourceTab"]
+layout_mode = 2
+texture = ExtResource("5_hua3m")
+expand_mode = 2
+
+[node name="Food" type="Label" parent="ResourcePanel/ResourceTab"]
+layout_mode = 2
+text = "test"
+
+[node name="Control" type="Control" parent="ResourcePanel/ResourceTab"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="ResourcePanel/ResourceTab"]
+layout_mode = 2
+texture = ExtResource("6_pteps")
+expand_mode = 2
+
+[node name="Wood" type="Label" parent="ResourcePanel/ResourceTab"]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="ResourcePanel/ResourceTab"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="ResourcePanel/ResourceTab"]
+layout_mode = 2
+texture = ExtResource("7_217be")
+expand_mode = 2
+
+[node name="Stone" type="Label" parent="ResourcePanel/ResourceTab"]
+layout_mode = 2
+
+[node name="RecruitOptions" type="Panel" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_m4vot")
+script = SubResource("GDScript_66i81")
+
+[node name="Label" type="Label" parent="RecruitOptions"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 42.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RecruitOptions"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -50.0
+offset_right = 25.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 50
+
+[node name="Worker" type="VBoxContainer" parent="RecruitOptions/HBoxContainer"]
+layout_mode = 2
+
+[node name="Worker" type="Button" parent="RecruitOptions/HBoxContainer/Worker"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/icon_pressed_color = Color(0, 0, 1, 1)
+theme_override_colors/icon_hover_color = Color(0, 1, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hx5fy")
+theme_override_styles/hover = SubResource("StyleBoxTexture_84sr8")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_84sr8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_84sr8")
+icon = ExtResource("8_qcgtm")
+expand_icon = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RecruitOptions/HBoxContainer/Worker"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="RecruitOptions/HBoxContainer/Worker/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_hua3m")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="RecruitOptions/HBoxContainer/Worker/HBoxContainer"]
+layout_mode = 2
+text = "20"
+horizontal_alignment = 1
+
+[node name="Soldier" type="VBoxContainer" parent="RecruitOptions/HBoxContainer"]
+layout_mode = 2
+
+[node name="Soldier" type="Button" parent="RecruitOptions/HBoxContainer/Soldier"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/icon_pressed_color = Color(0, 0, 1, 1)
+theme_override_colors/icon_hover_color = Color(0, 1, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hx5fy")
+theme_override_styles/hover = SubResource("StyleBoxTexture_84sr8")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_84sr8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_84sr8")
+icon = ExtResource("9_j7ooj")
+expand_icon = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RecruitOptions/HBoxContainer/Soldier"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="RecruitOptions/HBoxContainer/Soldier/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_hua3m")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="RecruitOptions/HBoxContainer/Soldier/HBoxContainer"]
+layout_mode = 2
+text = "40"
+horizontal_alignment = 1
+
+[node name="Balista" type="VBoxContainer" parent="RecruitOptions/HBoxContainer"]
+layout_mode = 2
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="RecruitOptions/HBoxContainer/Balista"]
+layout_mode = 2
+
+[node name="balista" type="Button" parent="RecruitOptions/HBoxContainer/Balista/AspectRatioContainer"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_colors/icon_pressed_color = Color(0, 0, 1, 1)
+theme_override_colors/icon_hover_color = Color(0, 1, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hx5fy")
+theme_override_styles/hover = SubResource("StyleBoxTexture_84sr8")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_84sr8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_84sr8")
+icon = ExtResource("12_8fevw")
+expand_icon = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RecruitOptions/HBoxContainer/Balista"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="RecruitOptions/HBoxContainer/Balista/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_pteps")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="RecruitOptions/HBoxContainer/Balista/HBoxContainer/TextureRect"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -49.0
+offset_top = -24.0
+offset_right = -18.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("7_217be")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="RecruitOptions/HBoxContainer/Balista/HBoxContainer"]
+layout_mode = 2
+text = "40"
+horizontal_alignment = 1
+
+[node name="Healthbar" parent="." instance=ExtResource("13_0oymu")]
+transform = Transform3D(5, 0, 0, 0, 1.5, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+monitoring = false
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(100, 0, 0, 0, -1.19209e-05, 100, 0, -100, -1.19209e-05, -0.0326234, 1.22666, 0.0199586)
+shape = SubResource("BoxShape3D_6vqva")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="mouse_entered" from="." to="temple/Temple" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="temple/Temple" method="_on_mouse_exited"]
+[connection signal="pressed" from="RecruitOptions/HBoxContainer/Worker/Worker" to="." method="_on_worker_pressed"]
+[connection signal="pressed" from="RecruitOptions/HBoxContainer/Soldier/Soldier" to="." method="_on_soldier_pressed"]
+[connection signal="pressed" from="RecruitOptions/HBoxContainer/Balista/AspectRatioContainer/balista" to="." method="_on_balista_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+
+[editable path="temple"]

@@ -1,0 +1,140 @@
+[gd_scene load_steps=14 format=3 uid="uid://dwg0fmlthxkfy"]
+
+[ext_resource type="Script" path="res://entities/ants/soldier_ant.gd" id="1_qknud"]
+[ext_resource type="Texture2D" uid="uid://b62r4utkky6vn" path="res://assets/textures/soldiericon.png" id="3_6qm85"]
+[ext_resource type="Texture2D" uid="uid://cdd5spo86if85" path="res://assets/textures/soldier_ant.png" id="4_uj3cw"]
+[ext_resource type="PackedScene" uid="uid://ccwk31nx0qnnr" path="res://assets/fbx/soldier.glb" id="4_y5xia"]
+[ext_resource type="PackedScene" uid="uid://dtf65yetl4rus" path="res://entities/ants/healthbar.tscn" id="5_4b3vr"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://cljrd41byapp6" path="res://entities/ants/attack_animationtree.tres" id="5_c6ikb"]
+[ext_resource type="PackedScene" uid="uid://2jr3r0ybf0l6" path="res://entities/ants/attackzone.tscn" id="5_sdcjo"]
+[ext_resource type="PackedScene" uid="uid://c05rbbsw4du21" path="res://entities/ants/sleect.tscn" id="8_j5os0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bqyr6"]
+radius = 1.37224
+height = 5.01604
+
+[sub_resource type="Gradient" id="Gradient_5vivq"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vkfjj"]
+gradient = SubResource("Gradient_5vivq")
+fill = 1
+fill_from = Vector2(0, 1)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4ehjl"]
+texture = SubResource("GradientTexture2D_vkfjj")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_twqc0"]
+radius = 20.0
+
+[node name="SoldierAnt" type="CharacterBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+script = ExtResource("1_qknud")
+damage = 6
+max_health = 20
+speed = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.51762, 0.371911)
+shape = SubResource("CapsuleShape3D_bqyr6")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 2.0
+avoidance_enabled = true
+debug_path_custom_color = Color(0.3, 0.381667, 1, 1)
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 20, 0)
+layers = 2
+billboard = 1
+texture = ExtResource("3_6qm85")
+
+[node name="image" type="Panel" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -186.0
+offset_right = 186.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_4ehjl")
+
+[node name="TextureRect" type="TextureRect" parent="image"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -186.0
+offset_right = 186.0
+grow_vertical = 0
+texture = ExtResource("4_uj3cw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="soldier" parent="." instance=ExtResource("4_y5xia")]
+
+[node name="Skeleton3D" parent="soldier/SoldierAnt" index="0"]
+bones/0/rotation = Quaternion(-0.151731, -0.023891, -0.015694, 0.988008)
+bones/1/rotation = Quaternion(-0.454449, 0.00797132, -0.000911783, 0.890736)
+bones/2/rotation = Quaternion(0.597894, 0.051707, -0.697194, 0.392135)
+bones/3/rotation = Quaternion(-0.26061, 0.0561613, -0.58606, 0.765155)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(-0.185361, 0.0767715, -0.304188, 0.931245)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/position = Vector3(0.131012, 0.4206, 0.0209323)
+bones/5/rotation = Quaternion(0.31011, 0.152475, -0.49965, 0.794313)
+bones/5/scale = Vector3(1, 1, 1)
+bones/6/rotation = Quaternion(0.0374684, -0.123236, -0.663372, 0.73712)
+bones/7/rotation = Quaternion(-0.0440464, -0.00121472, -0.335458, 0.941024)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/position = Vector3(0.14848, 0.144013, -0.0139494)
+bones/8/rotation = Quaternion(0.731112, 0.216438, -0.270013, 0.587982)
+bones/9/rotation = Quaternion(-0.147272, -0.690287, -0.291994, 0.64541)
+bones/10/rotation = Quaternion(0.035527, -0.0722718, -0.344413, 0.935358)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.581957, -0.380086, 0.688875, 0.2057)
+bones/12/rotation = Quaternion(-0.275331, -0.0633099, 0.577289, 0.766108)
+bones/12/scale = Vector3(1, 1, 1)
+bones/13/rotation = Quaternion(0.0113916, 0.34672, 0.116915, 0.930584)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/position = Vector3(-0.131012, 0.4206, 0.0209323)
+bones/14/rotation = Quaternion(0.311801, -0.156763, 0.515707, 0.782465)
+bones/14/scale = Vector3(1, 1, 1)
+bones/15/rotation = Quaternion(0.0538017, 0.163269, 0.666243, 0.725651)
+bones/16/rotation = Quaternion(-0.0440464, 0.00121472, 0.335458, 0.941024)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/position = Vector3(-0.14848, 0.144013, -0.0139494)
+bones/17/rotation = Quaternion(0.742166, -0.221688, 0.264848, 0.574369)
+bones/18/rotation = Quaternion(-0.156224, 0.731565, 0.301322, 0.59128)
+bones/19/rotation = Quaternion(0.035527, 0.0722718, 0.344413, 0.935358)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/rotation = Quaternion(0.001122, 0.716261, 0.697819, -0.00424113)
+
+[node name="AnimationTree" type="AnimationTree" parent="soldier"]
+tree_root = ExtResource("5_c6ikb")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Walk/blend_position = -0.140741
+
+[node name="Attackzone" parent="." instance=ExtResource("5_sdcjo")]
+
+[node name="healthbar" parent="." instance=ExtResource("5_4b3vr")]
+
+[node name="EnemyTracker" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="enemyDetection" type="Area3D" parent="."]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="enemyDetection"]
+shape = SubResource("SphereShape3D_twqc0")
+
+[node name="Select" parent="." instance=ExtResource("8_j5os0")]
+
+[connection signal="navigation_finished" from="NavigationAgent3D" to="." method="_on_target_reached"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_velocity_computed"]
+[connection signal="attack" from="Attackzone" to="." method="_on_attackzone_attack"]
+[connection signal="timeout" from="EnemyTracker" to="." method="_on_enemy_tracker_timer_timeout"]
+
+[editable path="soldier"]

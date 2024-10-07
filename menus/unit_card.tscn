@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://dj6yudgrss81d"]
+
+[ext_resource type="Texture2D" uid="uid://b0ufbld7wt8h6" path="res://icon.svg" id="1_ny5al"]
+
+[node name="UnitCard" type="VBoxContainer"]
+alignment = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+icon = ExtResource("1_ny5al")
+
+[node name="OptionButton" type="OptionButton" parent="."]
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 5
+popup/item_0/text = "None"
+popup/item_1/text = "Scout"
+popup/item_1/id = 1
+popup/item_2/text = "Worker"
+popup/item_2/id = 2
+popup/item_3/text = "Soldier"
+popup/item_3/id = 3
+popup/item_4/text = "Ballista"
+popup/item_4/id = 4
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 2
+max_value = 3.0
+rounded = true
+suffix = "/3"

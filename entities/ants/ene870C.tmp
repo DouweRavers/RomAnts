@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3 uid="uid://8mub6rxf7rnu"]
+
+[ext_resource type="Script" path="res://entities/ants/enemy_ant.gd" id="1_kehry"]
+[ext_resource type="Texture2D" uid="uid://dwbhv28mnyrc3" path="res://assets/textures/enemyicon.png" id="2_hdgws"]
+[ext_resource type="PackedScene" uid="uid://dtf65yetl4rus" path="res://entities/ants/healthbar.tscn" id="4_cfhra"]
+[ext_resource type="PackedScene" uid="uid://cd6uh62e3o5oj" path="res://assets/fbx/enemy.glb" id="4_kadvl"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://cljrd41byapp6" path="res://entities/ants/attack_animationtree.tres" id="4_px4kn"]
+[ext_resource type="PackedScene" uid="uid://2jr3r0ybf0l6" path="res://entities/ants/attackzone.tscn" id="6_1i0rn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bqyr6"]
+height = 3.3045
+
+[node name="EnemyAnt" type="CharacterBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+script = ExtResource("1_kehry")
+damage = 4
+speed = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.583011, 0.371911)
+shape = SubResource("CapsuleShape3D_bqyr6")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 2.0
+avoidance_enabled = true
+debug_path_custom_color = Color(0.3, 0.381667, 1, 1)
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 20, 0)
+layers = 2
+billboard = 1
+texture = ExtResource("2_hdgws")
+
+[node name="enemy" parent="." instance=ExtResource("4_kadvl")]
+
+[node name="Skeleton3D" parent="enemy/EnemyAnt" index="0"]
+bones/0/rotation = Quaternion(-0.151731, -0.023891, -0.015694, 0.988008)
+bones/1/rotation = Quaternion(-0.454655, 0.00811729, -0.000928479, 0.89063)
+bones/2/rotation = Quaternion(0.597894, 0.051707, -0.697194, 0.392135)
+bones/3/rotation = Quaternion(-0.260339, 0.0560302, -0.586219, 0.765135)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(-0.185361, 0.0767715, -0.304188, 0.931245)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/position = Vector3(0.131012, 0.4206, 0.0209323)
+bones/5/rotation = Quaternion(0.31011, 0.152475, -0.49965, 0.794313)
+bones/5/scale = Vector3(1, 1, 1)
+bones/6/rotation = Quaternion(0.0374684, -0.123236, -0.663372, 0.73712)
+bones/7/rotation = Quaternion(-0.0440464, -0.00121472, -0.335458, 0.941024)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/position = Vector3(0.14848, 0.144013, -0.0139494)
+bones/8/rotation = Quaternion(0.731112, 0.216438, -0.270013, 0.587982)
+bones/9/rotation = Quaternion(-0.147272, -0.690287, -0.291994, 0.64541)
+bones/10/rotation = Quaternion(0.035527, -0.0722718, -0.344413, 0.935358)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.581951, -0.379946, 0.688898, 0.205898)
+bones/12/rotation = Quaternion(-0.275331, -0.0633099, 0.577289, 0.766108)
+bones/12/scale = Vector3(1, 1, 1)
+bones/13/rotation = Quaternion(0.011061, 0.346548, 0.117026, 0.930638)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/position = Vector3(-0.131012, 0.4206, 0.0209323)
+bones/14/rotation = Quaternion(0.311801, -0.156763, 0.515707, 0.782465)
+bones/14/scale = Vector3(1, 1, 1)
+bones/15/rotation = Quaternion(0.0538017, 0.163269, 0.666243, 0.725651)
+bones/16/rotation = Quaternion(-0.0440464, 0.00121472, 0.335458, 0.941024)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/position = Vector3(-0.14848, 0.144013, -0.0139494)
+bones/17/rotation = Quaternion(0.742166, -0.221688, 0.264848, 0.574369)
+bones/18/rotation = Quaternion(-0.156224, 0.731565, 0.301322, 0.59128)
+bones/19/rotation = Quaternion(0.035527, 0.0722718, 0.344413, 0.935358)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/rotation = Quaternion(0.00114255, 0.716427, 0.697648, -0.00431879)
+
+[node name="AnimationTree" type="AnimationTree" parent="enemy"]
+tree_root = ExtResource("4_px4kn")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Walk/blend_position = -0.133562
+
+[node name="healthbar" parent="." instance=ExtResource("4_cfhra")]
+
+[node name="EnemyTrackerTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Attackzone" parent="." instance=ExtResource("6_1i0rn")]
+
+[connection signal="navigation_finished" from="NavigationAgent3D" to="." method="_on_target_reached"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_velocity_computed"]
+[connection signal="timeout" from="EnemyTrackerTimer" to="." method="_on_enemy_tracker_timer_timeout"]
+[connection signal="attack" from="Attackzone" to="." method="_on_attackzone_attack"]
+
+[editable path="enemy"]

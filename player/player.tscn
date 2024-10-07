@@ -1,0 +1,201 @@
+[gd_scene load_steps=14 format=3 uid="uid://chjbet2mt6llt"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_whwfs"]
+[ext_resource type="Script" path="res://player/player_camera.gd" id="2_io7bq"]
+[ext_resource type="Texture2D" uid="uid://dl3j7ai85use8" path="res://assets/textures/minimap_surrounding.png" id="3_07gwb"]
+[ext_resource type="Texture2D" uid="uid://cday33lyy4qqw" path="res://assets/textures/camera_icon.png" id="3_shutu"]
+[ext_resource type="PackedScene" uid="uid://b1b7efqg14tt3" path="res://entities/buildings/player_camp.tscn" id="5_c7f30"]
+[ext_resource type="Texture2D" uid="uid://dk7y821oncja0" path="res://assets/textures/mouse.png" id="5_hdsov"]
+
+[sub_resource type="Environment" id="Environment_2won1"]
+background_mode = 1
+background_color = Color(0.422875, 0.856206, 7.70092e-07, 1)
+
+[sub_resource type="GDScript" id="GDScript_3m02s"]
+script/source = "extends Camera3D
+
+@export var player_camera:PlayerCamera
+
+func _ready() -> void:
+	global_position.y = 1000
+	
+func _process(delta: float) -> void:
+	return
+	#global_position = player_camera.global_position
+	#global_position.y = 50
+	global_rotation.y = player_camera.global_rotation.y
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		var mouseEvent := event as InputEventMouseButton
+		mouseEvent.button_index = MOUSE_BUTTON_LEFT
+		var newpos := project_ray_origin(mouseEvent.global_position)
+		newpos.y = player_camera.global_position.y
+		player_camera.global_position = newpos
+"
+
+[sub_resource type="GDScript" id="GDScript_k784c"]
+script/source = "extends Label
+
+func _process(delta: float) -> void:
+	text = \"Current Score %0d\" % Game.instance.score
+"
+
+[sub_resource type="Gradient" id="Gradient_6sqcg"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uh3ob"]
+gradient = SubResource("Gradient_6sqcg")
+fill = 1
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2v41q"]
+texture = SubResource("GradientTexture2D_uh3ob")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ctm04"]
+font_size = 15
+font_color = Color(1, 0, 0, 1)
+
+[node name="Player" type="Node"]
+script = ExtResource("1_whwfs")
+
+[node name="PlayerCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0189449, 0, -4.86374e-05)
+cull_mask = 1047553
+current = true
+script = ExtResource("2_io7bq")
+
+[node name="Sprite3D2" type="Sprite3D" parent="PlayerCamera"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 60, 0)
+layers = 2
+billboard = 1
+texture = ExtResource("3_shutu")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 0)
+debug_shape_custom_color = Color(0, 0.633333, 1, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 915.0
+offset_top = 400.0
+offset_right = 1291.0
+offset_bottom = 716.0
+texture = ExtResource("3_07gwb")
+expand_mode = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="TextureRect"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.5
+offset_top = -112.0
+offset_right = 126.5
+offset_bottom = 143.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 0
+
+[node name="SubViewport" type="SubViewport" parent="TextureRect/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(255, 255)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="TextureRect/SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_camera")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+cull_mask = 1048574
+environment = SubResource("Environment_2won1")
+projection = 1
+current = true
+size = 200.0
+script = SubResource("GDScript_3m02s")
+player_camera = NodePath("../../../../PlayerCamera")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = -39.0
+offset_right = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TextureRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Current score:"
+script = SubResource("GDScript_k784c")
+
+[node name="Ants" type="Node" parent="."]
+
+[node name="Buildings" type="Node" parent="."]
+
+[node name="PlayerCamp" parent="Buildings" instance=ExtResource("5_c7f30")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.093426, -0.0590961)
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -166.0
+offset_bottom = 168.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_2v41q")
+
+[node name="TextureRect2" type="TextureRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -135.0
+offset_top = 29.0
+offset_right = -52.0
+offset_bottom = 161.0
+grow_horizontal = 0
+texture = ExtResource("5_hdsov")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Panel/TextureRect2"]
+layout_mode = 1
+offset_left = -28.0
+offset_top = -1.0
+offset_right = 21.0
+offset_bottom = 24.0
+text = "Select"
+label_settings = SubResource("LabelSettings_ctm04")
+
+[node name="Label2" type="Label" parent="Panel/TextureRect2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -54.5
+offset_top = -25.0
+offset_right = 54.5
+grow_horizontal = 2
+text = "Turn camera"
+label_settings = SubResource("LabelSettings_ctm04")
+
+[node name="Label3" type="Label" parent="Panel/TextureRect2"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -23.0
+offset_right = 46.0
+offset_bottom = 25.0
+grow_horizontal = 0
+text = "Interact"
+label_settings = SubResource("LabelSettings_ctm04")
+horizontal_alignment = 1

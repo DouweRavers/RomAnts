@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://2jr3r0ybf0l6"]
+
+[ext_resource type="Script" path="res://entities/ants/attackzone.gd" id="1_2bwdd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vnqsj"]
+size = Vector3(3, 3, 3)
+
+[node name="Attackzone" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.20881)
+monitorable = false
+script = ExtResource("1_2bwdd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_vnqsj")
+
+[node name="AttackTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

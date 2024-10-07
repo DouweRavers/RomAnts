@@ -1,0 +1,34 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=8 format=3 uid="uid://cljrd41byapp6"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eld4b"]
+animation = &"Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p6tj7"]
+animation = &"ShieldHold"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ddkaf"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_7v3er"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_p6tj7")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_ddkaf")
+blend_point_1/pos = 1.0
+min_space = 0.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3vt4k"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o5jsw"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_13gou"]
+switch_mode = 2
+advance_mode = 2
+
+[resource]
+states/Attack/node = SubResource("AnimationNodeAnimation_eld4b")
+states/Attack/position = Vector2(469, 181)
+states/Start/position = Vector2(336, 90)
+states/Walk/node = SubResource("AnimationNodeBlendSpace1D_7v3er")
+states/Walk/position = Vector2(469, 90)
+transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_3vt4k"), "Walk", "Attack", SubResource("AnimationNodeStateMachineTransition_o5jsw"), "Attack", "Walk", SubResource("AnimationNodeStateMachineTransition_13gou")]

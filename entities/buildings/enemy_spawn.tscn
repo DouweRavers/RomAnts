@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c36qc7q4r0juf"]
+
+[ext_resource type="Script" path="res://scenes/enemy_ants.gd" id="1_t0wxe"]
+
+[node name="EnemySpawn" type="Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5054, 0, -85.415)
+script = ExtResource("1_t0wxe")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Ants" type="Node" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

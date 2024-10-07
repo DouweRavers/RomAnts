@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://rnmcx0o0hdgb"]
+
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_3n5gp"]
+[ext_resource type="PackedScene" uid="uid://chjbet2mt6llt" path="res://player/player.tscn" id="2_2fdmj"]
+[ext_resource type="Script" path="res://scenes/player_ants.gd" id="4_nc8uk"]
+[ext_resource type="Script" path="res://scenes/enemy_ants.gd" id="5_1xiir"]
+[ext_resource type="PackedScene" uid="uid://b1b7efqg14tt3" path="res://entities/buildings/player_camp.tscn" id="5_3nas7"]
+[ext_resource type="Script" path="res://scenes/buildings.gd" id="6_sp1yx"]
+[ext_resource type="Script" path="res://scenes/resources.gd" id="8_iuc0h"]
+[ext_resource type="PackedScene" uid="uid://befndbtsiwm0y" path="res://entities/terrain/terrain.tscn" id="10_qb084"]
+
+[sub_resource type="GDScript" id="GDScript_87ai3"]
+script/source = "extends HBoxContainer
+
+
+func _process(delta: float) -> void:
+	$Food.text = \"Food: %5d\" % PlayerCamp.instance.food_capacity
+	$Wood.text = \"Wood: %5d\" % PlayerCamp.instance.wood_capacity
+	$Stone.text = \"Stone: %5d\" % PlayerCamp.instance.stone_capacity
+"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tx3qi"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_mmhs2"]
+sky_material = SubResource("ProceduralSkyMaterial_tx3qi")
+
+[sub_resource type="Environment" id="Environment_r8f2r"]
+background_mode = 2
+sky = SubResource("Sky_mmhs2")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Game" type="Node"]
+script = ExtResource("1_3n5gp")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+script = SubResource("GDScript_87ai3")
+
+[node name="Food" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Wood" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Stone" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Button" type="Button" parent="HBoxContainer2"]
+layout_mode = 2
+text = "Add line"
+
+[node name="Player" parent="." instance=ExtResource("2_2fdmj")]
+
+[node name="PlayerAnts" type="Node" parent="."]
+script = ExtResource("4_nc8uk")
+
+[node name="EnemyAnts" type="Node" parent="."]
+script = ExtResource("5_1xiir")
+
+[node name="StaticBody3D" parent="." instance=ExtResource("5_3nas7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.853403, -0.0590961)
+
+[node name="Buildings" type="Node" parent="."]
+script = ExtResource("6_sp1yx")
+
+[node name="Resources" type="Node" parent="."]
+script = ExtResource("8_iuc0h")
+
+[node name="Terrain" parent="." instance=ExtResource("10_qb084")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r8f2r")

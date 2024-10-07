@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://dsx7wydm6py7h"]
+
+[ext_resource type="Script" path="res://entities/resources/collectable_resource.gd" id="1_ys2g0"]
+[ext_resource type="PackedScene" uid="uid://csjoq8lb6gctu" path="res://assets/fbx/food.fbx" id="2_pn8lj"]
+[ext_resource type="Script" path="res://entities/overlay_on_hover.gd" id="3_sy2bo"]
+[ext_resource type="Texture2D" uid="uid://y75pedv63owl" path="res://assets/textures/icons/foodicon.png" id="4_w3ttc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g8vog"]
+radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llrdr"]
+albedo_color = Color(0.41, 0.285223, 0.0697, 1)
+
+[node name="FoodResource" type="StaticBody3D" groups=["NavmeshTargets"]]
+script = ExtResource("1_ys2g0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.442429, 0)
+shape = SubResource("SphereShape3D_g8vog")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="food" parent="." instance=ExtResource("2_pn8lj")]
+transform = Transform3D(1, 0, 0, 0, 0.00624819, -0.99998, 0, 0.99998, 0.00624819, 0, 0.444963, 0)
+
+[node name="Food" parent="food" index="0"]
+surface_material_override/2 = SubResource("StandardMaterial3D_llrdr")
+script = ExtResource("3_sy2bo")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 20, 0)
+layers = 2
+billboard = 1
+texture = ExtResource("4_w3ttc")
+
+[connection signal="mouse_entered" from="." to="food/Food" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="food/Food" method="_on_mouse_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_tick"]
+
+[editable path="food"]

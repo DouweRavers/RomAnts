@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://kh5xmgawk26n"]
+
+[ext_resource type="Script" path="res://entities/resources/collectable_resource.gd" id="1_khlta"]
+[ext_resource type="PackedScene" uid="uid://87uikru2r8pc" path="res://assets/fbx/plant.fbx" id="2_u6krj"]
+[ext_resource type="Texture2D" uid="uid://c2uk3aoo6wbpy" path="res://assets/textures/icons/woodicon.png" id="3_i5i26"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_32b8q"]
+radius = 2.49866
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_do68j"]
+albedo_color = Color(0.53, 0.366053, 0.1908, 1)
+
+[node name="WoodResource" type="StaticBody3D" groups=["NavmeshTargets"]]
+script = ExtResource("1_khlta")
+type = 2
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00649216, 0.935511, 0.0162298)
+shape = SubResource("SphereShape3D_32b8q")
+
+[node name="plant" parent="." instance=ExtResource("2_u6krj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08594, 0)
+
+[node name="Plant" parent="plant" index="0"]
+transform = Transform3D(10, 0, 0, 0, -4.37114e-07, 62.94, 0, -10, -2.75119e-06, 0.00649216, 1.08982, 0.0162298)
+surface_material_override/0 = SubResource("StandardMaterial3D_do68j")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 20, 0)
+layers = 2
+billboard = 1
+texture = ExtResource("3_i5i26")
+
+[connection signal="timeout" from="Timer" to="." method="_on_tick"]
+
+[editable path="plant"]

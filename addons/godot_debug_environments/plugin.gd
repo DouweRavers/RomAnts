@@ -1,13 +1,17 @@
 @tool
-extends EditorPlugin
+class_name DebugEnvironmentPlugin extends EditorPlugin
 
-var plugin
+static var instance:DebugEnvironmentPlugin
+
+var inspector:DebugEnvironmentInspector
 
 func _enter_tree():
-	plugin = preload("res://addons/godot_debug_environments/debug_environment_editor_inspector.gd").new()
-	add_autoload_singleton("DebugEnvironmentWatcher", "res://addons/godot_debug_environments/debug_environment_watcher.gd")
-	add_inspector_plugin(plugin)
+	instance = self
+	var inspector_script := load("res://addons/godot_debug_environments/inspector.gd") as GDScript
+	inspector = inspector_script.new()
+	add_inspector_plugin(inspector)
+	add_autoload_singleton("DebugEnvironmentWatcher", "res://addons/godot_debug_environments/watcher.gd")
 
 func _exit_tree():
+	remove_inspector_plugin(inspector)
 	remove_autoload_singleton("DebugEnvironmentWatcher")
-	remove_inspector_plugin(plugin)

@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtf65yetl4rus"]
+
+[ext_resource type="Script" path="res://entities/ants/healthbar.gd" id="1_xu8r6"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ftmea"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_c13yg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jpeoh"]
+bg_color = Color(1, 0, 0.0166664, 1)
+
+[node name="Hea;thbar" type="Node3D"]
+script = ExtResource("1_xu8r6")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.96965, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_ftmea")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(100, 25)
+
+[node name="HSlider" type="HSlider" parent="Sprite3D/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = SubResource("PlaceholderTexture2D_c13yg")
+theme_override_icons/grabber_highlight = SubResource("PlaceholderTexture2D_c13yg")
+theme_override_icons/grabber_disabled = SubResource("PlaceholderTexture2D_c13yg")
+theme_override_icons/tick = SubResource("PlaceholderTexture2D_c13yg")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_jpeoh")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_jpeoh")
+max_value = 10.0
+value = 5.0
+rounded = true
+editable = false
+scrollable = false

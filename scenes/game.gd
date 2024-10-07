@@ -1,9 +1,18 @@
-class_name Game extends Node3D
+class_name Game extends Node
+
+static var instance:Game
+
+var score := 0 
+var enemies_per_spawn := 1
+
+func _init() -> void:
+	instance = self
 
 
-func _ready() -> void:
-	pass # Replace with function body.
+func _on_timer_timeout() -> void:
+	enemies_per_spawn += 1
 
-
-func _process(delta: float) -> void:
-	pass
+func game_over()->void:
+	process_mode = PROCESS_MODE_DISABLED
+	$GameOver.show()
+	$GameOver/Label2.text = "Score: %d" % score
